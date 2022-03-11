@@ -92,6 +92,8 @@ if __name__ == '__main__':
          'Finance': finance,
          'Consume': consume,
          'Growth': growth})
-
+    
+    # 数据的描述性统计
+    majorDescriptStats = DesciptStats(majorPlate)
     # 数据预处理
     processedMajorPlate = DataProcessor(majorPlate)
