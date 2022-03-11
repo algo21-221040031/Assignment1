@@ -1,7 +1,7 @@
+from __future__ import division
 import pandas as pd
 import numpy as np
 import math as m
-from __future__ import division
 
 # 构建板块
 
@@ -53,6 +53,23 @@ def DataProcessor(plate):
         processedData = pd.concat([processedData, processedListDf], axis=1)
     return processedData
 
+# 多重共线性及方差膨胀因子的确定
+
+
+def VifCalculator(plateData):
+    # 计算各板块间的相关性
+    rSquare = plateData.corr()
+    # 通过相关性矩阵计算方差膨胀因子
+    cMatrix = np.linalg.inv(rSquare)
+    vifList = []
+    for i in range(len(cMatrix)):
+        vifList.append(cMatrix[i][i])
+    vifDic = {"VIF": vifList}
+    vifDataFrame = pd.DataFrame(vifDic).T
+    vifDataFrame.columns = ['UpCycle', 'MidCycle',
+                            'UnderCycle', 'Finance', 'Consume', 'Growth']
+    return vifDataFrame
+
 
 if __name__ == '__main__':
 
@@ -95,3 +112,12 @@ if __name__ == '__main__':
 
     # 数据预处理
     processedMajorPlate = DataProcessor(majorPlate)
+    processedMajorPlate.columns = ['UpCycle',
+                                   'MidCycle',
+                                   'UnderCycle',
+                                   'Finance',
+                                   'Consume',
+                                   'Growth']
+
+    # 计算方差膨胀因子
+    plateVIF = VifCalculator(processedMajorPlate)
