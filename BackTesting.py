@@ -1,4 +1,5 @@
 from __future__ import division
+from cgi import test
 import pandas as pd
 import numpy as np
 import math as m
@@ -38,15 +39,19 @@ def HierarchicalBacktesting(data, industry, selected):
         returnDf.columns = ['Return']
         # 分3层回测
         sortedReturnDf = returnDf.sort_values(by='Return', ascending=False)
+        testData = data.iloc[i]
         # 第一层
-        firstLayer = sortedReturnDf.iloc[0:2, :]['Return'].mean()
-        firstLayerList.append(firstLayer)
+        firstLayer = list(sortedReturnDf.iloc[0:2].index)
+        firstLayerData = testData[firstLayer].mean()
+        firstLayerList.append(firstLayerData)
         # 第二层
-        secondLayer = sortedReturnDf.iloc[2:4, :]['Return'].mean()
-        secondLayerList.append(secondLayer)
+        secondLayer = list(sortedReturnDf.iloc[2:4].index)
+        secondLayerData = testData[secondLayer].mean()
+        secondLayerList.append(secondLayerData)
         # 第三层
-        thirdLayer = sortedReturnDf.iloc[4:6, :]['Return'].mean()
-        thirdLayerList.append(thirdLayer)
+        thirdLayer = list(sortedReturnDf.iloc[4:6].index)
+        thirdLayerData = testData[thirdLayer].mean()
+        thirdLayerList.append(thirdLayerData)
 
     def NetValue(array):
         # 计算单位净值
@@ -71,7 +76,7 @@ def HierarchicalBacktesting(data, industry, selected):
         return max(drawdowns)
 
     drawdownFirst = get_max_drawdown(netValueFirst)
-    drawdownSecond = get_max_drawdown(secondLayerList)
+    drawdownSecond = get_max_drawdown(netValueSecond)
     drawdownThird = get_max_drawdown(netValueThird)
 
     drawdown = pd.DataFrame({'FirstLayer': drawdownFirst,
