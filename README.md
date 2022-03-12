@@ -36,6 +36,7 @@ Hierarchical backtesting is the most intuitive means to demonstrate the predicti
 * Parameter setting: The length of the training window is 70%, and the regression model is constructed considering all principal component vectors;
 * Portfolio construction: On the last trading day of each week, the principal component regression model is trained based on the weekly logarithmic return data of the six major plates in the past 70% time window, the pricing equation is constructed, and the return for the next week is predicted by extension. The yield ranking builds a tiered portfolio, and swaps positions at the closing price on the first trading day of next week;
 * Evaluation methods: Backtest annualized return, Sharpe ratio, maximum drawdown.
+The results can be obtained from main.py.
 
 #### LongShortBacktest
 Assuming that all sector indices can be short-sold, a long-short strategy portfolio can be constructed, that is, at each section, buy the sector with the highest predicted yield and short sell the sector with the lowest predicted yield to hedge market risks and obtain alpha income.
