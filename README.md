@@ -38,6 +38,6 @@ Hierarchical backtesting is the most intuitive means to demonstrate the predicti
 * Evaluation methods: Backtest annualized return, Sharpe ratio, maximum drawdown.
 The results can be obtained from main.py.
 
-#### LongShortBacktest
+#### LongShortBacktesting
 Assuming that all sector indices can be short-sold, a long-short strategy portfolio can be constructed, that is, at each section, buy the sector with the highest predicted yield and short sell the sector with the lowest predicted yield to hedge market risks and obtain alpha income.
 The results can be obtained from main.py.
