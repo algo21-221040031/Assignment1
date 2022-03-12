@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from statsmodels.api import smf
+import statsmodels.formula.api as smf
 from DataProcess import PlateConstruction, DataProcessor
 
 
@@ -9,7 +9,7 @@ def PrincipleComponentConstruction(data, k):
 
     :param data: pandas DataFrame, the processed return data of plates
     :param k: top k eigenvalues
-    :return:
+    :return: ComponentMatrix
     """
 
     covMatrix = data.cov()
@@ -26,7 +26,19 @@ def PrincipleComponentConstruction(data, k):
     return PCAMatrix
 
 
-def PCARegression(data):
+def PCARegression(data, response, selected):
+    """
+
+    :param data: pandas DataFrame containing dependent and independent variables
+    :param response: string, column name of response variable
+    :param selected: list, column names of independent variables
+    :return: model summary
+    """
+    formula = "{} ~ {} + 1".format(response, "+".join(selected))
+    model = smf.ols(formula, data).fit()
+    summary = model.summary()
+
+    return summary
 
 
 if __name__ == '__main__':
