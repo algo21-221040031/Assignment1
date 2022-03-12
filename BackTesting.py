@@ -4,6 +4,7 @@ import numpy as np
 import math as m
 import statsmodels.formula.api as smf
 
+
 def HierarchicalBacktesting(data, industry, selected):
     """
     :param data
@@ -88,6 +89,7 @@ def HierarchicalBacktesting(data, industry, selected):
 
     return finalMatrix
 
+
 def LongShortBackTesting(data, industry, selected):
     """
     :param data: pandas DataFrame, containing all variables and data
@@ -121,9 +123,11 @@ def LongShortBackTesting(data, industry, selected):
         returnDf.columns = ['Return']
         # long-short
         sortedReturnDf = returnDf.sort_values(by='Return', ascending=False)
-        firstReturn = sortedReturnDf['Return'].iloc[0]
-        lastReturn = sortedReturnDf['Return'].iloc[len(sortedReturnDf)-1]
-        netReturn = firstReturn - lastReturn
+        firstReturnIndustry = sortedReturnDf.iloc[0].name
+        lastReturnIndustry = sortedReturnDf.iloc[len(sortedReturnDf)-1].name
+        testData = data.iloc[i]
+        netReturn = testData[firstReturnIndustry] - \
+            testData[lastReturnIndustry]
         returnList.append(netReturn)
 
     def NetValue(array):
